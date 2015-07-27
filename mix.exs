@@ -19,6 +19,7 @@ defmodule JsonWebToken.Mixfile do
   def application do
     [
       applications: [
+        :crypto,
         :logger
       ]
     ]
