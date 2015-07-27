@@ -38,7 +38,8 @@ defmodule JsonWebToken.Mixfile do
     [
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.7", only: :dev},
-      {:excoveralls, "~> 0.3", only: :test}
+      {:excoveralls, "~> 0.3", only: :test},
+      {:poison, "~> 1.4"}
     ]
   end
 end
