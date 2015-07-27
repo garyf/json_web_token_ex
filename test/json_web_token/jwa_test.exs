@@ -9,8 +9,15 @@ defmodule JsonWebToken.JwaTest do
 
   @signing_input "{\"iss\":\"joe\",\"exp\":1300819380,\"http://example.com/is_root\":true}"
 
+  test "HS256 sign/3 does verify?/4 w 32-byte mac" do
+    alg = "HS256"
+    mac = Jwa.sign(alg, @hs256_key, @signing_input)
+    assert Jwa.verify?(mac, alg, @hs256_key, @signing_input)
+    assert byte_size(mac) == 32
+  end
+
   test "HS256 destructured_alg/1" do
-    assert Jwa.destructured_alg("HS256") == {"hs", "256"}
+    assert Jwa.destructured_alg("HS256") == {JsonWebToken.Algorithm.Hmac, :sha256}
   end
 
   defp invalid_algorithm(string) do
