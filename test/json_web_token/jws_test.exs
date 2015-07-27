@@ -44,4 +44,33 @@ defmodule JsonWebToken.JwsTest do
     jws = Jws.sign(%{alg: alg}, @payload, @hs256_key)
     assert "Invalid" === Jws.verify(jws, alg, nil)
   end
+
+  defp plausible_unsecured_jws?(jws) do
+    parts = String.split(jws, ".")
+    assert length(parts) == 3
+    [_, _, blank_part] = parts
+    assert blank_part == ""
+  end
+
+  test "unsecured_message/2 does verify/3 and is plausible" do
+    alg = "none"
+    jws = Jws.unsecured_message(%{alg: alg}, @payload)
+    assert jws === Jws.verify(jws, alg, @hs256_key) # key is ignored
+    plausible_unsecured_jws?(jws)
+  end
+
+  test "unsecured_message/2 w/o passing a valid header to verify/3 raises" do
+    message = "Invalid 'alg' header parameter"
+    assert_raise RuntimeError, message, fn ->
+      Jws.unsecured_message(%{alg: "HS256"}, @payload)
+    end
+  end
+
+  test "unsecured_message/2 w/o passing a matching algorithm to verify/3 raises" do
+    jws = Jws.unsecured_message(%{alg: "none"}, @payload)
+    message = "Algorithm not matching 'alg' header parameter"
+    assert_raise RuntimeError, message, fn ->
+      Jws.verify(jws, "HS256", @hs256_key)
+    end
+  end
 end

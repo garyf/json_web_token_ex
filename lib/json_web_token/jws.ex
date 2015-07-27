@@ -25,6 +25,20 @@ defmodule JsonWebToken.Jws do
     "#{signing_input}.#{signature(alg, key, signing_input)}"
   end
 
+  @doc """
+  Return a JWS that provides no integrity protection (i.e. lacks a signature)
+
+  ## Example
+      iex> JsonWebToken.Jws.unsecured_message(%{alg: "none"}, "payload")
+      "eyJhbGciOiJub25lIn0.cGF5bG9hZA."
+
+  see http://tools.ietf.org/html/rfc7515#page-47
+  """
+  def unsecured_message(header, payload) do
+    check_alg_value_none(algorithm header)
+    "#{signing_input(header, payload)}." # note the trailing "."
+  end
+
   defp algorithm(header) do
     Util.validate_present(header[:alg])
   end
@@ -39,6 +53,9 @@ defmodule JsonWebToken.Jws do
   defp signature(algorithm, key, signing_input) do
     Base64Url.encode(Jwa.sign algorithm, key, signing_input)
   end
+
+  defp check_alg_value_none("none"), do: true
+  defp check_alg_value_none(_), do: raise "Invalid 'alg' header parameter"
 
   @doc """
   Return a JWS string if the signature does verify, or an "Invalid" string otherwise
@@ -73,6 +90,7 @@ defmodule JsonWebToken.Jws do
   defp alg_match(true), do: true
   defp alg_match(false), do: raise "Algorithm not matching 'alg' header parameter"
 
+  defp verified(jws, "none", _), do: jws
   defp verified(jws, algorithm, key) do
     verified_jws(jws, signature_verify?(parts_list(jws), algorithm, key))
   end
