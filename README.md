@@ -26,21 +26,21 @@ Returns a JSON Web Token string
 
 `options` (required) map
 
-* **alg** (optional, default: `HS256`)
-* **key** (required unless alg is 'none')
+* **alg** (optional, default: `"HS256"`)
+* **key** (required unless alg is "none")
 
 ### JsonWebToken.verify(jwt, options)
 
 Returns either:
 * a JWT claims set map, if the Message Authentication Code (MAC), or signature, is verified
-* a string, 'Invalid', otherwise
+* a string, "Invalid", otherwise
 
-`jwt` (required) is a JSON web token string
+`"jwt"` (required) is a JSON web token string
 
 `options` (required) map
 
-* **alg** (optional, default: `HS256`)
-* **key** (required unless alg is 'none')
+* **alg** (optional, default: `"HS256"`)
+* **key** (required unless alg is "none")
 
 ### Supported encryption algorithms
 The 2 REQUIRED JWT algorithms
@@ -63,3 +63,5 @@ Future implementation may include these features:
 [rfc7516]: http://tools.ietf.org/html/rfc7516
 [rfc7518]: http://tools.ietf.org/html/rfc7518
 [rfc7519]: http://tools.ietf.org/html/rfc7519
+
+[thomson-postel]: https://tools.ietf.org/html/draft-thomson-postel-was-wrong-00
