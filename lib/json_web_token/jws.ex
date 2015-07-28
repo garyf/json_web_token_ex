@@ -44,7 +44,14 @@ defmodule JsonWebToken.Jws do
   end
 
   defp signing_input(header, payload) do
-    "#{Base64Url.encode header_json(Poison.encode header)}.#{Base64Url.encode payload}"
+    "#{to_json_base64_encode header}.#{Base64Url.encode payload}"
+  end
+
+  defp to_json_base64_encode(header) do
+    header
+    |> Poison.encode
+    |> header_json
+    |> Base64Url.encode
   end
 
   defp header_json({:ok, json}), do: json
