@@ -1,6 +1,7 @@
 defmodule JsonWebToken.JwaTest do
   use ExUnit.Case
 
+  alias JsonWebToken.Algorithm.EcdsaUtil
   alias JsonWebToken.Algorithm.RsaUtil
   alias JsonWebToken.Jwa
 
@@ -25,6 +26,13 @@ defmodule JsonWebToken.JwaTest do
     assert Jwa.verify?(mac, alg, @rsa_public_key, @signing_input)
     assert byte_size(mac) == 256
   end
+
+  test "ES256 sign/3 does verify?/4" do
+     alg = "ES256"
+     {public_key, private_key} = EcdsaUtil.key_pair(:sha256)
+     mac = Jwa.sign(alg, private_key, @signing_input)
+     assert Jwa.verify?(mac, alg, public_key, @signing_input)
+   end
 
   test "HS256 destructured_alg/1" do
     assert Jwa.destructured_alg("HS256") == {JsonWebToken.Algorithm.Hmac, :sha256}

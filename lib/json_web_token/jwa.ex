@@ -5,10 +5,11 @@ defmodule JsonWebToken.Jwa do
   see http://tools.ietf.org/html/rfc7518
   """
 
+  alias JsonWebToken.Algorithm.Ecdsa
   alias JsonWebToken.Algorithm.Hmac
   alias JsonWebToken.Algorithm.Rsa
 
-  @algorithms ~r{(HS|RS)(256|384|512)?}i
+  @algorithms ~r{(HS|RS|ES)(256|384|512)?}i
 
   @doc """
   Return a Message Authentication Code (MAC) for a particular `algorithm`
@@ -59,6 +60,7 @@ defmodule JsonWebToken.Jwa do
 
   defp alg_module("hs"), do: Hmac
   defp alg_module("rs"), do: Rsa
+  defp alg_module("es"), do: Ecdsa
 
   defp sha_prefixed(sha_bits), do: String.to_atom("sha" <> sha_bits)
 end
