@@ -29,6 +29,26 @@ Returns a JSON Web Token string
 * **alg** (optional, default: `"HS256"`)
 * **key** (required unless alg is "none")
 
+Example
+
+```elixir
+
+# sign with default algorithm, HMAC SHA256
+jwt = JsonWebToken.create(%{foo: "bar"}, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"})
+
+# sign with RSA SHA256 algorithm
+opts = %{
+  alg: "RSA256",
+  key: < RSA private key >
+}
+
+jwt = JsonWebToken.create(%{foo: "bar"}, opts)
+
+# unsecured token (algorithm is "none")
+jwt = JsonWebToken.create(%{foo: "bar"}, %{alg: "none"})
+
+```
+
 ### JsonWebToken.verify(jwt, options)
 
 Returns either:
@@ -42,11 +62,44 @@ Returns either:
 * **alg** (optional, default: `"HS256"`)
 * **key** (required unless alg is "none")
 
-### Supported encryption algorithms
-The 2 REQUIRED JWT algorithms
+Example
 
-- HMAC using SHA-256 per [RFC 2104][rfc2104]
-- none (unsecured)
+```elixir
+
+secure_jwt_example = "eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFt.cGxlLmNvbS9pc19yb290Ijp0cnVlfQ.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+
+# verify with default algorithm, HMAC SHA256
+claims = JsonWebToken.verify(secure_jwt_example, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"})
+
+# verify with RSA SHA256 algorithm
+opts = %{
+  alg: "RSA256",
+  key: < RSA public key >
+}
+
+claims = JsonWebToken.verify(jwt, opts)
+
+# unsecured token (algorithm is "none")
+unsecured_jwt_example = "eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFt."
+
+claims = JsonWebToken.verify(unsecured_jwt_example, %{alg: "none"})
+
+```
+
+### Supported encryption algorithms
+
+alg Param Value | Digital Signature or MAC Algorithm
+------|------
+HS256 | HMAC using SHA-256 per [RFC 2104][rfc2104]
+HS384 | HMAC using SHA-384
+HS512 | HMAC using SHA-512
+RS256 | RSASSA-PKCS-v1_5 using SHA-256 per [RFC3447][rfc3447]
+RS384 | RSASSA-PKCS-v1_5 using SHA-384
+RS512 | RSASSA-PKCS-v1_5 using SHA-512
+ES256 | ECDSA using P-256 and SHA-256 per [DSS][dss]
+ES384 | ECDSA using P-384 and SHA-384
+ES512 | ECDSA using P-521 and SHA-512
+none | No digital signature or MAC performed (unsecured)
 
 ### Supported Elixir versions
 Elixir 1.0.5 and up
@@ -54,14 +107,16 @@ Elixir 1.0.5 and up
 ### Limitations
 Future implementation may include these features:
 
-- Representation of a JWT as a JSON Web Encryption (JWE) [RFC 7516][rfc7516]
-- RECOMMENDED or OPTIONAL encryption algorithms
+- processing of OPTIONAL JWT registered claim names (e.g. 'exp')
+- representation of a JWT as a JSON Web Encryption (JWE) [RFC 7516][rfc7516]
 - OPTIONAL nested JWTs
 
 [rfc2104]: http://tools.ietf.org/html/rfc2104
+[rfc3447]: http://tools.ietf.org/html/rfc3447
 [rfc7515]: http://tools.ietf.org/html/rfc7515
 [rfc7516]: http://tools.ietf.org/html/rfc7516
 [rfc7518]: http://tools.ietf.org/html/rfc7518
 [rfc7519]: http://tools.ietf.org/html/rfc7519
+[dss]: http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf
 
 [thomson-postel]: https://tools.ietf.org/html/draft-thomson-postel-was-wrong-00

@@ -46,4 +46,27 @@ defmodule JsonWebToken.Algorithm.EcdsaTest do
     mac = Ecdsa.sign(sha_bits, private_key, @signing_input_0)
     refute Ecdsa.verify?(mac, sha_bits, other_public_key, @signing_input_0)
   end
+
+  # param validation
+  test "sign/3 w unrecognized sha_bits raises" do
+    {_, private_key} = @key_pair_256k1
+    message = "Invalid sha_bits"
+    assert_raise RuntimeError, message, fn ->
+      Ecdsa.sign(:sha257, private_key, @signing_input_0)
+    end
+  end
+
+  defp invalid_key(private_key, message \\ "Param blank") do
+    assert_raise RuntimeError, message, fn ->
+      Ecdsa.sign(:sha256, private_key, @signing_input_0)
+    end
+  end
+
+  test "sign/3 w private_key nil raises" do
+    invalid_key(nil, "Param nil")
+  end
+
+  test "sign/3 w private_key empty string raises" do
+    invalid_key("")
+  end
 end

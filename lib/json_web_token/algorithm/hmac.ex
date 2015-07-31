@@ -5,6 +5,7 @@ defmodule JsonWebToken.Algorithm.Hmac do
   see http://tools.ietf.org/html/rfc7518#section-3.2
   """
 
+  alias JsonWebToken.Algorithm.Common
   alias JsonWebToken.Util
 
   @doc """
@@ -16,6 +17,7 @@ defmodule JsonWebToken.Algorithm.Hmac do
       <<90, 34, 44, 252, 147, 130, 167, 173, 86, 191, 247, 93, 94, 12, 200, 30, 173, 115, 248, 89, 246, 222, 4, 213, 119, 74, 70, 20, 231, 194, 104, 103>>
   """
   def sign(sha_bits, shared_key, signing_input) do
+    validate_params(sha_bits, shared_key)
     :crypto.hmac(sha_bits, shared_key, signing_input)
   end
 
@@ -32,4 +34,18 @@ defmodule JsonWebToken.Algorithm.Hmac do
   def verify?(mac, sha_bits, shared_key, signing_input) do
     Util.constant_time_compare?(mac, sign(sha_bits, shared_key, signing_input))
   end
+
+  defp validate_params(sha_bits, key) do
+    Common.validate_bits(sha_bits)
+    |> validate_key_size(key)
+  end
+
+  # http://tools.ietf.org/html/rfc7518#section-3.2
+  defp validate_key_size(bits, key) do
+    key = Util.validate_present(key)
+    weak_key(byte_size(key) * 8 < bits)
+  end
+
+  defp weak_key(true), do: raise "Key size smaller than the hash output size"
+  defp weak_key(_), do: :ok
 end

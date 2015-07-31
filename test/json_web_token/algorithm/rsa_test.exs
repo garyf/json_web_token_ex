@@ -34,4 +34,46 @@ defmodule JsonWebToken.Algorithm.RsaTest do
     mac = Rsa.sign(sha_bits, @private_key, @signing_input_0)
     refute Rsa.verify?(mac, sha_bits, public_key_alt, @signing_input_0)
   end
+
+  # param validation
+  test "sign/3 w unrecognized sha_bits raises" do
+    message = "Invalid sha_bits"
+    assert_raise RuntimeError, message, fn ->
+      Rsa.sign(:sha257, @private_key, @signing_input_0)
+    end
+  end
+
+  defp invalid_key(private_key, message \\ "Param blank") do
+    assert_raise RuntimeError, message, fn ->
+      Rsa.sign(:sha256, private_key, @signing_input_0)
+    end
+  end
+
+  test "sign/3 w private_key nil raises" do
+    invalid_key(nil, "Param nil")
+  end
+
+  test "sign/3 w private_key empty string raises" do
+    invalid_key("")
+  end
+
+  test "sign/3 w private_key size < key_bits_min raises" do
+    private_key = RsaUtil.private_key("private_key_weak.pem")
+    assert byte_size(Rsa.modulus private_key) == 255
+    invalid_key(private_key, "RSA modulus too short")
+  end
+
+  test "sign/3 w private_key size == key_bits_min (2048) returns a 256 byte mac" do
+    signing_input = String.duplicate("a", 245)
+    mac = Rsa.sign(:sha256, @private_key, signing_input)
+    assert byte_size(mac) == 256
+  end
+
+  test "sign/3 w message too long raises" do
+    signing_input = String.duplicate("a", 246)
+    message = "Message too large"
+    assert_raise RuntimeError, message, fn ->
+      Rsa.sign(:sha256, @private_key, signing_input)
+    end
+  end
 end

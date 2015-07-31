@@ -35,4 +35,35 @@ defmodule JsonWebToken.Algorithm.HmacTest do
     assert Hmac.verify?(mac, sha_bits, @hs256_key, @signing_input_0)
     refute Hmac.verify?(mac, sha_bits, key_1, @signing_input_0)
   end
+
+  # param validation
+  test "sign/3 w unrecognized sha_bits raises" do
+    message = "Invalid sha_bits"
+    assert_raise RuntimeError, message, fn ->
+      Hmac.sign(:sha257, @hs256_key, @signing_input_0)
+    end
+  end
+
+  defp invalid_key(sha_bits, key, message \\ "Key size smaller than the hash output size") do
+    assert_raise RuntimeError, message, fn ->
+      Hmac.sign(sha_bits, key, @signing_input_0)
+    end
+  end
+
+  test "sign/3 w :sha256 w key nil raises" do
+    invalid_key(:sha256, nil, "Param nil")
+  end
+
+  test "sign/3 w :sha256 w key empty string raises" do
+    invalid_key(:sha256, "", "Param blank")
+  end
+
+  test "sign/3 w :sha256 w key length (31) < MAC length (32) raises" do
+    invalid_key(:sha256, "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9")
+  end
+
+  test "sign/3 w :sha256 w key length == MAC length (32)" do
+    mac = Hmac.sign(:sha256, @hs256_key, @signing_input_0)
+    assert byte_size(mac) == 32
+  end
 end

@@ -5,6 +5,7 @@ defmodule JsonWebToken.Algorithm.Ecdsa do
   see http://tools.ietf.org/html/rfc7518#section-3.4
   """
 
+  alias JsonWebToken.Algorithm.Common
   alias JsonWebToken.Util
 
   @bits_to_curves %{
@@ -23,6 +24,7 @@ defmodule JsonWebToken.Algorithm.Ecdsa do
       true
   """
   def sign(sha_bits, private_key, data) do
+    validate_params(sha_bits, private_key)
     :crypto.sign(:ecdsa, sha_bits, data, [private_key, curve(sha_bits)])
   end
 
@@ -39,6 +41,12 @@ defmodule JsonWebToken.Algorithm.Ecdsa do
       true
   """
   def verify?(mac, sha_bits, public_key, data) do
+    validate_params(sha_bits, public_key)
     :crypto.verify(:ecdsa, sha_bits, data, mac, [public_key, curve(sha_bits)])
+  end
+
+  defp validate_params(sha_bits, key) do
+    Common.validate_bits(sha_bits)
+    Util.validate_present(key)
   end
 end
