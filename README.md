@@ -1,4 +1,4 @@
-# JSON Web Token
+# JSON Web Token [![travis][ci_img]][travis]
 
 ## A JSON Web Token implementation for Elixir
 
@@ -120,3 +120,6 @@ Future implementation may include these features:
 [dss]: http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf
 
 [thomson-postel]: https://tools.ietf.org/html/draft-thomson-postel-was-wrong-00
+
+[travis]: https://travis-ci.org/garyf/json_web_token_ex
+[ci_img]: https://travis-ci.org/garyf/json_web_token_ex.svg?branch=master

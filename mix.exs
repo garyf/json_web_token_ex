@@ -5,10 +5,12 @@ defmodule JsonWebToken.Mixfile do
     [
       app: :json_web_token,
       version: "0.0.1",
-      elixir: "~> 1.0",
+      elixir: "~> 1.0.5",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps,
+      package: package,
+      description: "Elixir implementation of the JSON Web Token (JWT) Standard Track RFC 4627",
       test_coverage: [tool: ExCoveralls]
     ]
   end
@@ -41,6 +43,14 @@ defmodule JsonWebToken.Mixfile do
       {:ex_doc, "~> 0.7", only: :dev},
       {:excoveralls, "~> 0.3", only: :test},
       {:poison, "~> 1.4"}
+    ]
+  end
+
+  defp package do
+    [
+      contributors: ["Gary Fleshman"],
+      licenses: ["MIT"],
+      links: %{github: "https://github.com/garyf/json_web_token_ex"}
     ]
   end
 end
