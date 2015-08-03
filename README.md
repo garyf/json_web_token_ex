@@ -1,9 +1,9 @@
-# JSON Web Token [![travis][ci_img]][travis]
+# JSON Web Token [![travis][ci_img]][travis] [![hex docs][hd_img]][hex_docs]
 
-## A JSON Web Token implementation for Elixir
+## A JSON Web Token (JWT) implementation for Elixir
 
 ### Description
-An Elixir implementation of the JSON Web Token (JWT) Standards Track [RFC 7519][rfc7519]
+An Elixir implementation of the JSON Web Token (JWT) standard [RFC 7519][rfc7519]
 
 ### Philosophy & design goals
 * Minimal API surface area
@@ -22,7 +22,7 @@ An Elixir implementation of the JSON Web Token (JWT) Standards Track [RFC 7519][
 
 Returns a JSON Web Token string
 
-`claims` (required) map
+`claims` (required) string or map
 
 `options` (required) map
 
@@ -34,7 +34,7 @@ Example
 ```elixir
 
 # sign with default algorithm, HMAC SHA256
-jwt = JsonWebToken.create(%{foo: "bar"}, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"})
+jwt = JsonWebToken.sign(%{foo: "bar"}, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"})
 
 # sign with RSA SHA256 algorithm
 opts = %{
@@ -42,10 +42,10 @@ opts = %{
   key: < RSA private key >
 }
 
-jwt = JsonWebToken.create(%{foo: "bar"}, opts)
+jwt = JsonWebToken.sign(%{foo: "bar"}, opts)
 
 # unsecured token (algorithm is "none")
-jwt = JsonWebToken.create(%{foo: "bar"}, %{alg: "none"})
+jwt = JsonWebToken.sign(%{foo: "bar"}, %{alg: "none"})
 
 ```
 
@@ -123,3 +123,5 @@ Future implementation may include these features:
 
 [travis]: https://travis-ci.org/garyf/json_web_token_ex
 [ci_img]: https://travis-ci.org/garyf/json_web_token_ex.svg?branch=master
+[hex_docs]: http://hexdocs.pm/json_web_token
+[hd_img]: http://img.shields.io/badge/docs-hexpm-blue.svg

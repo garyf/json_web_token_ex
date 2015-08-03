@@ -20,9 +20,9 @@ defmodule JsonWebToken.Algorithm.Rsa do
       ...> byte_size(mac)
       256
   """
-  def sign(sha_bits, private_key, data) do
-    validate_params(sha_bits, private_key, data)
-    :crypto.sign(:rsa, sha_bits, data, private_key)
+  def sign(sha_bits, private_key, signing_input) do
+    validate_params(sha_bits, private_key, signing_input)
+    :crypto.sign(:rsa, sha_bits, signing_input, private_key)
   end
 
   @doc """
@@ -35,18 +35,18 @@ defmodule JsonWebToken.Algorithm.Rsa do
       ...> JsonWebToken.Algorithm.Rsa.verify?(mac, :sha256, public_key, "signing_input")
       true
   """
-  def verify?(mac, sha_bits, public_key, data) do
-    validate_params(sha_bits, public_key, data)
-    :crypto.verify(:rsa, sha_bits, data, mac, public_key)
+  def verify?(mac, sha_bits, public_key, signing_input) do
+    validate_params(sha_bits, public_key, signing_input)
+    :crypto.verify(:rsa, sha_bits, signing_input, mac, public_key)
   end
 
   @doc "RSA key modulus, n"
   def modulus(key), do: :crypto.mpint(Enum.at key, 1)
 
-  defp validate_params(sha_bits, key, data) do
+  defp validate_params(sha_bits, key, signing_input) do
     Common.validate_bits(sha_bits)
     validate_key_size(key)
-    validate_message_size(data)
+    validate_message_size(signing_input)
   end
 
   # http://tools.ietf.org/html/rfc7518#section-3.3
@@ -59,8 +59,8 @@ defmodule JsonWebToken.Algorithm.Rsa do
   defp weak_key(_), do: :ok
 
   # http://tools.ietf.org/html/rfc3447#section-7.2
-  defp validate_message_size(data) do
-    message = Util.validate_present(data)
+  defp validate_message_size(signing_input) do
+    message = Util.validate_present(signing_input)
     large_message(byte_size(message) > @message_bytes_max)
   end
 

@@ -10,7 +10,7 @@ defmodule JsonWebToken.Algorithm.HmacTest do
   @hs512_key "ysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hc"
 
   @signing_input_0 "{\"iss\":\"joe\",\"exp\":1300819380,\"http://example.com/is_root\":true}"
-  @signing_input_1 "{\"iss\":\"mike\",\"exp\":1300819380,\"http://example.com/is_root\":true}"
+  @signing_input_1 "{\"iss\":\"mike\",\"exp\":1300819380,\"http://example.com/is_root\":false}"
 
   defp detect_changed_input_or_mac(sha_bits, key) do
     mac_0 = Hmac.sign(sha_bits, key, @signing_input_0)

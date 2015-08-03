@@ -4,13 +4,13 @@ defmodule JsonWebToken.Mixfile do
   def project do
     [
       app: :json_web_token,
-      version: "0.0.1",
+      version: "0.1.0",
       elixir: "~> 1.0.5",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps,
       package: package,
-      description: "Elixir implementation of the JSON Web Token (JWT) Standard Track RFC 4627",
+      description: "Elixir implementation of the JSON Web Token (JWT) standard, RFC 7519",
       test_coverage: [tool: ExCoveralls]
     ]
   end

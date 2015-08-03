@@ -8,7 +8,7 @@ defmodule JsonWebToken.Algorithm.EcdsaUtilTest do
     assert is_binary(public_key)
     assert is_binary(private_key)
     assert byte_size(public_key) == 65
-    assert byte_size(private_key) == 32
+    assert byte_size(private_key) > 30
   end
 
   test "key_pair/1 for :secp384r1" do
@@ -16,7 +16,7 @@ defmodule JsonWebToken.Algorithm.EcdsaUtilTest do
     assert is_binary(public_key)
     assert is_binary(private_key)
     assert byte_size(public_key) == 97
-    assert byte_size(private_key) == 48
+    assert byte_size(private_key) > 47
   end
 
   test "key_pair/1 for :secp521r1" do
@@ -24,6 +24,6 @@ defmodule JsonWebToken.Algorithm.EcdsaUtilTest do
     assert is_binary(public_key)
     assert is_binary(private_key)
     assert byte_size(public_key) == 133
-    assert byte_size(private_key) > 64
+    assert byte_size(private_key) > 63
   end
 end

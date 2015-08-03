@@ -9,7 +9,7 @@ defmodule JsonWebToken.Algorithm.EcdsaTest do
   @key_pair_256k1 EcdsaUtil.key_pair
 
   @signing_input_0 "{\"iss\":\"joe\",\"exp\":1300819380,\"http://example.com/is_root\":true}"
-  @signing_input_1 "{\"iss\":\"mike\",\"exp\":1300819380,\"http://example.com/is_root\":true}"
+  @signing_input_1 "{\"iss\":\"mike\",\"exp\":1300819380,\"http://example.com/is_root\":false}"
 
   test "ES256 sign/3 returns a mac (der encoded) w a byte_size > 68" do
     {_, private_key} = @key_pair_256k1
@@ -17,7 +17,7 @@ defmodule JsonWebToken.Algorithm.EcdsaTest do
     assert byte_size(mac) > 68
   end
 
-  defp detect_changed_input_or_mac(sha_bits, der_byte_count_threshold) do
+  defp detect_changed_input_or_mac(sha_bits) do
     {public_key, private_key} = EcdsaUtil.key_pair(sha_bits)
 
     mac_0 = Ecdsa.sign(sha_bits, private_key, @signing_input_0)
@@ -27,16 +27,13 @@ defmodule JsonWebToken.Algorithm.EcdsaTest do
     mac_1 = Ecdsa.sign(sha_bits, private_key, @signing_input_1)
     refute Ecdsa.verify?(mac_1, sha_bits, public_key, @signing_input_0)
     assert Ecdsa.verify?(mac_1, sha_bits, public_key, @signing_input_1)
-
-    assert byte_size(mac_0) > der_byte_count_threshold
-    assert byte_size(mac_1) > der_byte_count_threshold
   end
 
-  test "ES256 sign/3 and verify?/4", do: detect_changed_input_or_mac(:sha256, 68) # 64 decoded
+  test "ES256 sign/3 and verify?/4", do: detect_changed_input_or_mac(:sha256)
 
-  test "ES384 sign/3 and verify?/4", do: detect_changed_input_or_mac(:sha384, 100) # 96
+  test "ES384 sign/3 and verify?/4", do: detect_changed_input_or_mac(:sha384)
 
-  test "ES512 sign/3 and verify?/4", do: detect_changed_input_or_mac(:sha512, 136) # 132
+  test "ES512 sign/3 and verify?/4", do: detect_changed_input_or_mac(:sha512)
 
   test "changed key returns verify?/4 false" do
     {_, private_key} = @key_pair_256k1

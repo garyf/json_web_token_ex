@@ -1,7 +1,7 @@
 defmodule JsonWebToken.Format.Base64Url do
   @moduledoc """
-  Provide base64url encoding and decoding functions without padding, based upon standard base64 encoding
-  and decoding functions that do use padding
+  Provide base64url encoding and decoding functions without padding, based upon standard base64
+  encoding and decoding functions that do use padding
 
   see http://tools.ietf.org/html/rfc7515#appendix-C
   """

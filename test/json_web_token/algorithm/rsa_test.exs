@@ -10,7 +10,7 @@ defmodule JsonWebToken.Algorithm.RsaTest do
   @public_key RsaUtil.public_key
 
   @signing_input_0 "{\"iss\":\"joe\",\"exp\":1300819380,\"http://example.com/is_root\":true}"
-  @signing_input_1 "{\"iss\":\"mike\",\"exp\":1300819380,\"http://example.com/is_root\":true}"
+  @signing_input_1 "{\"iss\":\"mike\",\"exp\":1300819380,\"http://example.com/is_root\":false}"
 
   defp detect_changed_input_or_mac(sha_bits) do
     mac_0 = Rsa.sign(sha_bits, @private_key, @signing_input_0)
