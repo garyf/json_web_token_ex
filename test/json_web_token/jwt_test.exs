@@ -19,6 +19,13 @@ defmodule JsonWebToken.JwtTest do
     assert @claims === Jwt.verify(jwt, opts)
   end
 
+  test "sign/2 w explicit alg and wrong key returns error" do
+    wrong_key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9Z"
+    opts = %{alg: "HS256", key: @hs256_key}
+    jwt = Jwt.sign(@claims, opts)
+    assert {:error, "invalid"} == Jwt.verify(jwt, %{alg: "HS256", key: wrong_key})
+  end
+
   test "sign/2 w alg nil does verify/2" do
     opts = %{alg: nil, key: @hs256_key}
     jwt = Jwt.sign(@claims, opts)

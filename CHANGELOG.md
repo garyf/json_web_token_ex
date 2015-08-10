@@ -1,5 +1,11 @@
 ## Changelog
 
+### v0.1.1 (2015-08-10)
+
+* enhancements
+  * Jwt and Jws verify/2 return values for failed verification
+  * RsaUtil path_to_keys
+
 ### v0.1.0 (2015-08-02)
 
 * enhancements

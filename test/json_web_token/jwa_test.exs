@@ -8,8 +8,9 @@ defmodule JsonWebToken.JwaTest do
   doctest Jwa
 
   @hs256_key "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
-  @rsa_private_key RsaUtil.private_key
-  @rsa_public_key RsaUtil.public_key
+  @path_to_keys "test/fixtures/rsa"
+  @rsa_private_key RsaUtil.private_key(@path_to_keys, "private_key.pem")
+  @rsa_public_key RsaUtil.public_key(@path_to_keys, "public_key.pem")
 
   @signing_input "{\"iss\":\"joe\",\"exp\":1300819380,\"http://example.com/is_root\":true}"
 

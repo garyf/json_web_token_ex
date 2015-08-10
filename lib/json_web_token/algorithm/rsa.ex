@@ -15,7 +15,8 @@ defmodule JsonWebToken.Algorithm.Rsa do
   Return a Message Authentication Code (MAC)
 
   ## Example
-      iex> private_key = JsonWebToken.Algorithm.RsaUtil.private_key
+      iex> alias JsonWebToken.Algorithm.RsaUtil
+      ...> private_key = RsaUtil.private_key("test/fixtures/rsa", "private_key.pem")
       ...> mac = JsonWebToken.Algorithm.Rsa.sign(:sha256, private_key, "signing_input")
       ...> byte_size(mac)
       256
@@ -29,8 +30,10 @@ defmodule JsonWebToken.Algorithm.Rsa do
   Predicate to verify a digital signature, or mac
 
   ## Example
-      iex> private_key = JsonWebToken.Algorithm.RsaUtil.private_key
-      ...> public_key = JsonWebToken.Algorithm.RsaUtil.public_key
+      iex> alias JsonWebToken.Algorithm.RsaUtil
+      ...> path_to_keys = "test/fixtures/rsa"
+      ...> private_key = RsaUtil.private_key(path_to_keys, "private_key.pem")
+      ...> public_key = RsaUtil.public_key(path_to_keys, "public_key.pem")
       ...> mac = JsonWebToken.Algorithm.Rsa.sign(:sha256, private_key, "signing_input")
       ...> JsonWebToken.Algorithm.Rsa.verify?(mac, :sha256, public_key, "signing_input")
       true

@@ -65,7 +65,7 @@ defmodule JsonWebToken.Jws do
   defp check_alg_value_none(_), do: raise "Invalid 'alg' header parameter"
 
   @doc """
-  Return a JWS string if the signature does verify, or an "Invalid" string otherwise
+  Return a JWS string if the signature does verify, or `false` otherwise
 
   ## Example
       iex> jws = "eyJhbGciOiJIUzI1NiJ9.cGF5bG9hZA.uVTaOdyzp_f4mT_hfzU8LnCzdmlVC4t2itHDEYUZym4"
@@ -103,7 +103,7 @@ defmodule JsonWebToken.Jws do
   end
 
   defp verified_jws(jws, true), do: jws
-  defp verified_jws(_, _), do: "Invalid"
+  defp verified_jws(_, _), do: false
 
   defp parts_list(jws), do: valid_parts_list(String.split jws, ".")
 

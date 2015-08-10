@@ -6,8 +6,9 @@ defmodule JsonWebToken.Algorithm.RsaTest do
 
   doctest Rsa
 
-  @private_key RsaUtil.private_key
-  @public_key RsaUtil.public_key
+  @path_to_keys "test/fixtures/rsa"
+  @private_key RsaUtil.private_key(@path_to_keys, "private_key.pem")
+  @public_key RsaUtil.public_key(@path_to_keys, "public_key.pem")
 
   @signing_input_0 "{\"iss\":\"joe\",\"exp\":1300819380,\"http://example.com/is_root\":true}"
   @signing_input_1 "{\"iss\":\"mike\",\"exp\":1300819380,\"http://example.com/is_root\":false}"
@@ -30,7 +31,7 @@ defmodule JsonWebToken.Algorithm.RsaTest do
 
   test "changed key does not verify?/4" do
     sha_bits = :sha256
-    public_key_alt = RsaUtil.public_key("public_key_alt.pem")
+    public_key_alt = RsaUtil.public_key(@path_to_keys, "public_key_alt.pem")
     mac = Rsa.sign(sha_bits, @private_key, @signing_input_0)
     refute Rsa.verify?(mac, sha_bits, public_key_alt, @signing_input_0)
   end
@@ -58,7 +59,7 @@ defmodule JsonWebToken.Algorithm.RsaTest do
   end
 
   test "sign/3 w private_key size < key_bits_min raises" do
-    private_key = RsaUtil.private_key("private_key_weak.pem")
+    private_key = RsaUtil.private_key(@path_to_keys, "private_key_weak.pem")
     assert byte_size(Rsa.modulus private_key) == 255
     invalid_key(private_key, "RSA modulus too short")
   end

@@ -53,7 +53,7 @@ jwt = JsonWebToken.sign(%{foo: "bar"}, %{alg: "none"})
 
 Returns either:
 * a JWT claims set map, if the Message Authentication Code (MAC), or signature, is verified
-* a string, "Invalid", otherwise
+* a tuple, {:error, "invalid"}, otherwise
 
 `"jwt"` (required) is a JSON web token string
 

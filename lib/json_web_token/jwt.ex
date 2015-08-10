@@ -67,7 +67,7 @@ defmodule JsonWebToken.Jwt do
   defp jws_message(header, payload, key, _), do: Jws.sign(header, payload, key)
 
   @doc """
-  Return a JWT claims map if the JWT signature does verify, or an "Invalid" string otherwise
+  Return a JWT claims map if the JWT signature does verify, or a tuple, {:error, "invalid"} otherwise
 
   ## Example
       iex> jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
@@ -81,7 +81,7 @@ defmodule JsonWebToken.Jwt do
     payload(Jws.verify jwt, algorithm(options), options[:key])
   end
 
-  defp payload("Invalid"), do: "Invalid"
+  defp payload(false), do: {:error, "invalid"}
   defp payload(jws), do: jws_payload(jws)
 
   defp jws_payload(jws) do

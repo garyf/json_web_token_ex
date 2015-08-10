@@ -39,10 +39,10 @@ defmodule JsonWebToken.JwsTest do
     end
   end
 
-  test "sign/3 w/o passing a key to verify/3 is 'Invalid'" do
+  test "sign/3 w/o passing a key to verify/3 is false" do
     alg = "HS256"
     jws = Jws.sign(%{alg: alg}, @payload, @hs256_key)
-    assert "Invalid" === Jws.verify(jws, alg, nil)
+    refute Jws.verify(jws, alg, nil)
   end
 
   defp plausible_unsecured_jws?(jws) do
