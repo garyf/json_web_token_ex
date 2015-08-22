@@ -1,5 +1,10 @@
 ## Changelog
 
+### v0.2.0 (2015-08-22)
+
+* enhancements
+  * JsonWebToken, Jwt, and Jws verify/2 return values for successful verification
+
 ### v0.1.1 (2015-08-10)
 
 * enhancements

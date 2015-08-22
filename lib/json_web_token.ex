@@ -22,13 +22,14 @@ defmodule JsonWebToken do
   def sign(claims, options), do: Jwt.sign(claims, options)
 
   @doc """
-  Return a JWT claims map if the JWT signature does verify, or a tuple, {:error, "invalid"} otherwise
+  Return a tuple {:ok, claims (map)} if the JWT signature is verified,
+  or {:error, "invalid"} otherwise
 
   ## Example
       iex> jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZSwiZXhwIjoxMzAwODE5MzgwfQ.Ktfu3EdLz0SpuTIMpMoRZMtZsCATWJHeDEBGrsZE6LI"
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
       ...> JsonWebToken.verify(jwt, %{key: key})
-      %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}
+      {:ok, %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}}
 
   see http://tools.ietf.org/html/rfc7519#section-7.2
   """

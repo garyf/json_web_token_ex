@@ -8,40 +8,37 @@ defmodule JsonWebToken.JwtTest do
   @hs256_key "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
   @claims %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}
 
+  defp sign_does_verify(options, claims \\ @claims) do
+    jwt = Jwt.sign(claims, options)
+    {:ok, verified_claims} = Jwt.verify(jwt, options)
+    assert verified_claims === @claims
+  end
+
   test "sign/2 w default alg (HS256) does verify/2" do
-    jwt = Jwt.sign(@claims, %{key: @hs256_key})
-    assert @claims === Jwt.verify(jwt, %{key: @hs256_key})
+    sign_does_verify(%{key: @hs256_key})
   end
 
   test "sign/2 w explicit alg does verify/2" do
-    opts = %{alg: "HS256", key: @hs256_key}
-    jwt = Jwt.sign(@claims, opts)
-    assert @claims === Jwt.verify(jwt, opts)
+    sign_does_verify(%{alg: "HS256", key: @hs256_key})
   end
 
   test "sign/2 w explicit alg and wrong key returns error" do
     wrong_key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9Z"
-    opts = %{alg: "HS256", key: @hs256_key}
-    jwt = Jwt.sign(@claims, opts)
+    options = %{alg: "HS256", key: @hs256_key}
+    jwt = Jwt.sign(@claims, options)
     assert {:error, "invalid"} == Jwt.verify(jwt, %{alg: "HS256", key: wrong_key})
   end
 
   test "sign/2 w alg nil does verify/2" do
-    opts = %{alg: nil, key: @hs256_key}
-    jwt = Jwt.sign(@claims, opts)
-    assert @claims === Jwt.verify(jwt, opts)
+    sign_does_verify(%{alg: nil, key: @hs256_key})
   end
 
   test "sign/2 w alg empty string does verify/2" do
-    opts = %{alg: "", key: @hs256_key}
-    jwt = Jwt.sign(@claims, opts)
-    assert @claims === Jwt.verify(jwt, opts)
+    sign_does_verify(%{alg: "", key: @hs256_key})
   end
 
   test "sign/2 w alg 'none' does verify/2" do
-    opts = %{alg: "none"}
-    jwt = Jwt.sign(@claims, opts)
-    assert @claims === Jwt.verify(jwt, opts)
+    sign_does_verify(%{alg: "none"})
   end
 
   test "sign/2 w claims nil raises" do

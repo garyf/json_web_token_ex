@@ -19,7 +19,8 @@ defmodule JsonWebToken.JwsTest do
   test "sign/3 for HS256 does verify/3 and is plausible" do
     alg = "HS256"
     jws = Jws.sign(%{alg: alg}, @payload, @hs256_key)
-    assert jws === Jws.verify(jws, alg, @hs256_key)
+    {:ok, verified_jws} = Jws.verify(jws, alg, @hs256_key)
+    assert verified_jws === jws
     plausible_jws?(jws)
   end
 
@@ -42,7 +43,8 @@ defmodule JsonWebToken.JwsTest do
   test "sign/3 w/o passing a key to verify/3 is false" do
     alg = "HS256"
     jws = Jws.sign(%{alg: alg}, @payload, @hs256_key)
-    refute Jws.verify(jws, alg, nil)
+    {:error, msg} = Jws.verify(jws, alg, nil)
+    assert msg == "invalid" 
   end
 
   defp plausible_unsecured_jws?(jws) do
@@ -55,7 +57,8 @@ defmodule JsonWebToken.JwsTest do
   test "unsecured_message/2 does verify/3 and is plausible" do
     alg = "none"
     jws = Jws.unsecured_message(%{alg: alg}, @payload)
-    assert jws === Jws.verify(jws, alg, @hs256_key) # key is ignored
+    {:ok, verified_jws} = Jws.verify(jws, alg, @hs256_key) # key is ignored
+    assert verified_jws === jws
     plausible_unsecured_jws?(jws)
   end
 

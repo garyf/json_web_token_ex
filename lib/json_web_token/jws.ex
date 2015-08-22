@@ -65,13 +65,13 @@ defmodule JsonWebToken.Jws do
   defp check_alg_value_none(_), do: raise "Invalid 'alg' header parameter"
 
   @doc """
-  Return a JWS string if the signature does verify, or `false` otherwise
+  Return a tuple {:ok, jws (string)} if the signature is verified, or {:error, "invalid"} otherwise
 
   ## Example
       iex> jws = "eyJhbGciOiJIUzI1NiJ9.cGF5bG9hZA.uVTaOdyzp_f4mT_hfzU8LnCzdmlVC4t2itHDEYUZym4"
       ...> key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
       ...> JsonWebToken.Jws.verify(jws, "HS256", key)
-      "eyJhbGciOiJIUzI1NiJ9.cGF5bG9hZA.uVTaOdyzp_f4mT_hfzU8LnCzdmlVC4t2itHDEYUZym4"
+      {:ok, "eyJhbGciOiJIUzI1NiJ9.cGF5bG9hZA.uVTaOdyzp_f4mT_hfzU8LnCzdmlVC4t2itHDEYUZym4"}
   """
   def verify(jws, algorithm, key \\ nil) do
     validate_alg_matched(jws, algorithm)
@@ -97,13 +97,13 @@ defmodule JsonWebToken.Jws do
   defp alg_match(true), do: true
   defp alg_match(false), do: raise "Algorithm not matching 'alg' header parameter"
 
-  defp verified(jws, "none", _), do: jws
+  defp verified(jws, "none", _), do: {:ok, jws}
   defp verified(jws, algorithm, key) do
     verified_jws(jws, signature_verify?(parts_list(jws), algorithm, key))
   end
 
-  defp verified_jws(jws, true), do: jws
-  defp verified_jws(_, _), do: false
+  defp verified_jws(jws, true), do: {:ok, jws}
+  defp verified_jws(_, _), do: {:error, "invalid"}
 
   defp parts_list(jws), do: valid_parts_list(String.split jws, ".")
 

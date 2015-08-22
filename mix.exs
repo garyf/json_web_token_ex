@@ -4,7 +4,7 @@ defmodule JsonWebToken.Mixfile do
   def project do
     [
       app: :json_web_token,
-      version: "0.1.1",
+      version: "0.2.0",
       elixir: "~> 1.0.5",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
