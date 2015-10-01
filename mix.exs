@@ -5,7 +5,7 @@ defmodule JsonWebToken.Mixfile do
     [
       app: :json_web_token,
       version: "0.2.1",
-      elixir: "~> 1.0.5",
+      elixir: "~> 1.1.1",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps,
