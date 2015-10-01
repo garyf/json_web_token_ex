@@ -1,5 +1,10 @@
 ## Changelog
 
+### v0.2.1 (2015-09-30)
+
+* bug fix
+  * Remove invalid RSA validate_message_size/1
+
 ### v0.2.0 (2015-08-22)
 
 * enhancements

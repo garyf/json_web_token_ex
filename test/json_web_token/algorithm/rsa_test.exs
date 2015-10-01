@@ -69,12 +69,4 @@ defmodule JsonWebToken.Algorithm.RsaTest do
     mac = Rsa.sign(:sha256, @private_key, signing_input)
     assert byte_size(mac) == 256
   end
-
-  test "sign/3 w message too long raises" do
-    signing_input = String.duplicate("a", 246)
-    message = "Message too large"
-    assert_raise RuntimeError, message, fn ->
-      Rsa.sign(:sha256, @private_key, signing_input)
-    end
-  end
 end

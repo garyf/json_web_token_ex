@@ -9,7 +9,6 @@ defmodule JsonWebToken.Algorithm.Rsa do
   alias JsonWebToken.Util
 
   @key_bits_min 2048
-  @message_bytes_max 245 # 256 - 11 (per http://tools.ietf.org/html/rfc3447#section-7.2)
 
   @doc """
   Return a Message Authentication Code (MAC)
@@ -22,7 +21,7 @@ defmodule JsonWebToken.Algorithm.Rsa do
       256
   """
   def sign(sha_bits, private_key, signing_input) do
-    validate_params(sha_bits, private_key, signing_input)
+    validate_params(sha_bits, private_key)
     :crypto.sign(:rsa, sha_bits, signing_input, private_key)
   end
 
@@ -39,17 +38,16 @@ defmodule JsonWebToken.Algorithm.Rsa do
       true
   """
   def verify?(mac, sha_bits, public_key, signing_input) do
-    validate_params(sha_bits, public_key, signing_input)
+    validate_params(sha_bits, public_key)
     :crypto.verify(:rsa, sha_bits, signing_input, mac, public_key)
   end
 
   @doc "RSA key modulus, n"
   def modulus(key), do: :crypto.mpint(Enum.at key, 1)
 
-  defp validate_params(sha_bits, key, signing_input) do
+  defp validate_params(sha_bits, key) do
     Common.validate_bits(sha_bits)
     validate_key_size(key)
-    validate_message_size(signing_input)
   end
 
   # http://tools.ietf.org/html/rfc7518#section-3.3
@@ -60,13 +58,4 @@ defmodule JsonWebToken.Algorithm.Rsa do
 
   defp weak_key(true), do: raise "RSA modulus too short"
   defp weak_key(_), do: :ok
-
-  # http://tools.ietf.org/html/rfc3447#section-7.2
-  defp validate_message_size(signing_input) do
-    message = Util.validate_present(signing_input)
-    large_message(byte_size(message) > @message_bytes_max)
-  end
-
-  defp large_message(true), do: raise "Message too large"
-  defp large_message(_), do: :ok
 end
