@@ -22,7 +22,7 @@ Add JsonWebToken as a dependency in your `mix.exs` file:
 
 ```elixir
 defp deps do
-  [{:json_web_token, ">= 0.2"}]
+  [{:json_web_token, ">= 0.2.1"}]
 end
 ```
 
