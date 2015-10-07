@@ -1,5 +1,11 @@
 ## Changelog
 
+### v0.2.2 (2015-10-06)
+
+* enhancements
+  * Elixir version ~> 1.1
+  * Upgrade dependency versions
+
 ### v0.2.1 (2015-09-30)
 
 * bug fix
