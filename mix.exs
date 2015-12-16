@@ -48,7 +48,7 @@ defmodule JsonWebToken.Mixfile do
 
   defp package do
     [
-      contributors: ["Gary Fleshman"],
+      maintainers: ["Gary Fleshman"],
       licenses: ["MIT"],
       links: %{github: "https://github.com/garyf/json_web_token_ex"}
     ]
