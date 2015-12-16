@@ -109,13 +109,23 @@ ES384 | ECDSA using P-384 and SHA-384
 ES512 | ECDSA using P-521 and SHA-512
 none | No digital signature or MAC performed (unsecured)
 
+### Registered Claim Names
+
+A companion Hex package, [JWT Claims][jwt_claims], provides support for verifying these optional, registered claim names:
+* "**iss**" (Issuer)
+* "**sub**" (Subject)
+* "**aud**" (Audience)
+* "**exp**" (Expiration Time)
+* "**nbf**" (Not Before)
+* "**iat**" (Issued At)
+* "**jti**" (JWT ID)
+
 ### Supported Elixir versions
-Elixir 1.0.5 and up
+Elixir 1.1 and up
 
 ### Limitations
 Future implementation may include these features:
 
-- processing of OPTIONAL JWT registered claim names (e.g. 'exp')
 - representation of a JWT as a JSON Web Encryption (JWE) [RFC 7516][rfc7516]
 - OPTIONAL nested JWTs
 
@@ -133,3 +143,5 @@ Future implementation may include these features:
 [ci_img]: https://travis-ci.org/garyf/json_web_token_ex.svg?branch=master
 [hex_docs]: http://hexdocs.pm/json_web_token
 [hd_img]: http://img.shields.io/badge/docs-hexpm-blue.svg
+
+[jwt_claims]: https://github.com/garyf/jwt_claims_ex
