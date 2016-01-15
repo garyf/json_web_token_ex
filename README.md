@@ -46,7 +46,7 @@ jwt = JsonWebToken.sign(%{foo: "bar"}, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
 
 # sign with RSA SHA256 algorithm
 opts = %{
-  alg: "RSA256",
+  alg: "RS256",
   key: < RSA private key >
 }
 
@@ -81,7 +81,7 @@ secure_jwt_example = "eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiL
 
 # verify with RSA SHA256 algorithm
 opts = %{
-  alg: "RSA256",
+  alg: "RS256",
   key: < RSA public key >
 }
 
