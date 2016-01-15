@@ -17,4 +17,10 @@ defmodule JsonWebToken.Algorithm.RsaUtilTest do
     assert length(key) == 2
     assert byte_size(Rsa.modulus key) == 261
   end
+
+  test "private key with ASN.1 header" do
+    key = RsaUtil.private_key(@path_to_keys, "private_key_asn1_header.pem")
+    assert length(key) == 3
+    assert byte_size(Rsa.modulus key) == 261
+  end
 end
