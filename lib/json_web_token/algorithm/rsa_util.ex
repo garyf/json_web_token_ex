@@ -15,10 +15,17 @@ defmodule JsonWebToken.Algorithm.RsaUtil do
   end
 
   defp entry_decode(path_to_keys, filename) do
-    pem_read(path_to_keys, filename)
-    |> :public_key.pem_decode
-    |> List.first
-    |> :public_key.pem_entry_decode
+    key = pem_read(path_to_keys, filename)
+          |> :public_key.pem_decode
+          |> List.first
+          |> :public_key.pem_entry_decode
+
+    case key do
+      {:PrivateKeyInfo, _, _, der_key, _} ->
+        :public_key.der_decode(:RSAPrivateKey, der_key)
+       _ ->
+         key
+     end
   end
 
   defp pem_read(path_to_keys, filename) do
