@@ -23,4 +23,22 @@ defmodule JsonWebToken.Algorithm.RsaUtilTest do
     assert length(key) == 3
     assert byte_size(Rsa.modulus key) == 261
   end
+
+  test "private key passed in directly" do
+    file_key = RsaUtil.private_key(@path_to_keys, "private_key.pem")
+    string_key =
+      Path.join(@path_to_keys, "private_key.pem")
+      |> File.read!
+      |> RsaUtil.private_key
+    assert file_key == string_key
+  end
+
+  test "public key passed in directly" do
+    file_key = RsaUtil.public_key(@path_to_keys, "public_key.pem")
+    string_key =
+      Path.join(@path_to_keys, "public_key.pem")
+        |> File.read!
+        |> RsaUtil.public_key
+    assert file_key == string_key
+  end
 end
