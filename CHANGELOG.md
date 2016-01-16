@@ -1,16 +1,23 @@
 ## Changelog
 
+### v0.2.4 (2016-01-16)
+
+* enhancements
+  * Support RSA private keys encoded with ASN.1 and associated header
+  * Support passing an RSA key into a function as a string
+  * Update dependency versions
+
 ### v0.2.3 (2015-12-15)
 
 * enhancements
   * README mention of jwt_claims Hex package for verifying registered claim names
-  * Upgrade dependency versions
+  * Update dependency versions
 
 ### v0.2.2 (2015-10-06)
 
 * enhancements
   * Elixir version ~> 1.1
-  * Upgrade dependency versions
+  * Update dependency versions
   * README mention of jwt_claims Hex package for registered claim names
 
 ### v0.2.1 (2015-09-30)
