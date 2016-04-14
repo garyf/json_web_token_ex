@@ -1,5 +1,10 @@
 ## Changelog
 
+### v0.2.5 (2016-04-14)
+
+* enhancements
+  * Update dependency versions
+
 ### v0.2.4 (2016-01-16)
 
 * enhancements

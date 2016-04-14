@@ -45,9 +45,10 @@ Example
 jwt = JsonWebToken.sign(%{foo: "bar"}, %{key: "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"})
 
 # sign with RSA SHA256 algorithm
+private_key = JsonWebToken.Algorithm.RsaUtil.private_key("path/to/", "key.pem")
 opts = %{
   alg: "RS256",
-  key: < RSA private key >
+  key: private_key
 }
 
 jwt = JsonWebToken.sign(%{foo: "bar"}, opts)
@@ -121,7 +122,7 @@ A companion Hex package, [JWT Claims][jwt_claims], provides support for verifyin
 * "**jti**" (JWT ID)
 
 ### Supported Elixir versions
-Elixir 1.1 and up
+Elixir 1.2 and up
 
 ### Limitations
 Future implementation may include these features:
