@@ -6,6 +6,7 @@ defmodule JsonWebToken.JwtTest do
   doctest Jwt
 
   @hs256_key "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
+  @key_id "test-key"
   @claims %{iss: "joe", exp: 1300819380, "http://example.com/is_root": true}
 
   defp sign_does_verify(options, claims \\ @claims) do
@@ -73,5 +74,13 @@ defmodule JsonWebToken.JwtTest do
 
   test "config_header/1 w/o key, w alg 'none'" do
     assert Jwt.config_header(alg: "none") == %{typ: "JWT", alg: "none"}
+  end
+
+  test "config_header/1 with key and key id includes the key id" do
+    assert Jwt.config_header(key: @hs256_key, kid: @key_id) == %{typ: "JWT", alg: "HS256", kid: "test-key"}
+  end
+
+  test "config_header/1 excludes header that is not registered" do
+    assert Jwt.config_header(key: @hs256_key, notstandard: "value") == %{typ: "JWT", alg: "HS256"} 
   end
 end
