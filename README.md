@@ -37,6 +37,8 @@ Returns a JSON Web Token string
 * **alg** (optional, default: `"HS256"`)
 * **key** (required unless alg is "none")
 
+Include any JWS JOSE header parameters ([RFC 7515][rfc7515]) in the options map
+
 Example
 
 ```elixir
@@ -110,7 +112,7 @@ ES384 | ECDSA using P-384 and SHA-384
 ES512 | ECDSA using P-521 and SHA-512
 none | No digital signature or MAC performed (unsecured)
 
-### Registered Claim Names
+### Registered claim names
 
 A companion Hex package, [JWT Claims][jwt_claims], provides support for verifying these optional, registered claim names:
 * "**iss**" (Issuer)

@@ -1,5 +1,11 @@
 ## Changelog
 
+### v0.2.6 (2016-09-19)
+
+* enhancements
+  * Support JWS JOSE header parameters
+  * Update dependency versions
+
 ### v0.2.5 (2016-04-14)
 
 * enhancements
