@@ -12,6 +12,8 @@ defmodule JsonWebToken.Jwt do
 
   @algorithm_default "HS256"
   @header_default %{typ: "JWT"}
+  # JOSE header types from: https://tools.ietf.org/html/rfc7515
+  @header_jose_keys [:alg, :jku, :jwk, :kid, :x5u, :x5c, :x5t, :"x5t#S256", :typ, :cty, :crit]
 
   @doc """
   Return a JSON Web Token (JWT), a string representing a set of claims as a JSON object that is
@@ -41,7 +43,11 @@ defmodule JsonWebToken.Jwt do
   Filters out unsupported claims options and ignores any encryption keys
   """
   def config_header(options) do
-    Dict.merge(@header_default, alg: algorithm(options))
+    {jose_registered_headers, _other_headers} = Dict.split(options, @header_jose_keys)
+
+    @header_default
+    |> Dict.merge(jose_registered_headers)
+    |> Dict.merge(alg: algorithm(options))
   end
 
   defp algorithm(options) do
