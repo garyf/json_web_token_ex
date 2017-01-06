@@ -8,8 +8,8 @@ defmodule JsonWebToken.Mixfile do
       elixir: "~> 1.3",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      deps: deps,
-      package: package,
+      deps: deps(),
+      package: package(),
       description: "Elixir implementation of the JSON Web Token (JWT), RFC 7519",
       test_coverage: [tool: ExCoveralls]
     ]
