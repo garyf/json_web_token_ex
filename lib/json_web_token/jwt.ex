@@ -42,12 +42,15 @@ defmodule JsonWebToken.Jwt do
 
   Filters out unsupported claims options and ignores any encryption keys
   """
-  def config_header(options) do
-    {jose_registered_headers, _other_headers} = Dict.split(options, @header_jose_keys)
+  def config_header(options) when is_map(options) do
+    {jose_registered_headers, _other_headers} = Map.split(options, @header_jose_keys)
 
     @header_default
-    |> Dict.merge(jose_registered_headers)
-    |> Dict.merge(alg: algorithm(options))
+    |> Map.merge(jose_registered_headers)
+    |> Map.merge(%{alg: algorithm(options)})
+  end
+  def config_header(options) when is_list(options) do
+    options |> Map.new |> config_header
   end
 
   defp algorithm(options) do
