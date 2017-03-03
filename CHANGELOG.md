@@ -1,5 +1,10 @@
 ## Changelog
 
+### v0.2.7 (2017-03-02)
+
+* enhancements
+  * Refactor to use Base.url_encode64
+
 ### v0.2.6 (2016-09-19)
 
 * enhancements

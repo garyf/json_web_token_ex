@@ -2,7 +2,6 @@ defmodule JsonWebToken.JwsTest do
   use ExUnit.Case
 
   alias JsonWebToken.Jws
-  alias JsonWebToken.Format.Base64Url
 
   doctest Jws
 
@@ -13,7 +12,7 @@ defmodule JsonWebToken.JwsTest do
     parts = String.split(jws, ".")
     assert length(parts) == 3
     [_, _, encoded_mac] = parts
-    assert byte_size(Base64Url.decode encoded_mac) == bytesize
+    assert byte_size(Base.url_decode64!(encoded_mac, padding: false)) == bytesize
   end
 
   test "sign/3 for HS256 does verify/3 and is plausible" do
@@ -44,7 +43,7 @@ defmodule JsonWebToken.JwsTest do
     alg = "HS256"
     jws = Jws.sign(%{alg: alg}, @payload, @hs256_key)
     {:error, msg} = Jws.verify(jws, alg, nil)
-    assert msg == "invalid" 
+    assert msg == "invalid"
   end
 
   defp plausible_unsecured_jws?(jws) do

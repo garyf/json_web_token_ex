@@ -7,7 +7,6 @@ defmodule JsonWebToken.Jwt do
   see http://tools.ietf.org/html/rfc7519
   """
 
-  alias JsonWebToken.Format.Base64Url
   alias JsonWebToken.Jws
 
   @algorithm_default "HS256"
@@ -100,7 +99,7 @@ defmodule JsonWebToken.Jwt do
 
   defp payload_to_map(encoded_payload) do
     encoded_payload
-    |> Base64Url.decode
+    |> Base.url_decode64!(padding: false)
     |> Poison.decode(keys: :atoms)
     |> claims_map
   end
