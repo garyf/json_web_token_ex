@@ -93,6 +93,7 @@ defmodule JsonWebToken.Jws do
 
   defp header_map({:ok, map}), do: map
   defp header_map({:error, _}), do: raise "Failed to decode header from JSON"
+  defp header_map({:error, _, _}), do: raise "Failed to decode header from JSON"
 
   defp alg_match(true), do: true
   defp alg_match(false), do: raise "Algorithm not matching 'alg' header parameter"
