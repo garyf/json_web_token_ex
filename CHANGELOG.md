@@ -1,5 +1,13 @@
 ## Changelog
 
+### v0.2.8 (2017-03-04)
+
+* bug fix
+  * Handle unexpected 3 tuple return when supplying an invalid string to Poison.decode/1
+
+* enhancements
+  * Update Poison dependency
+
 ### v0.2.7 (2017-03-02)
 
 * enhancements
