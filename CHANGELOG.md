@@ -1,5 +1,13 @@
 ## Changelog
 
+### v0.2.9 (2017-06-17)
+
+* bug fix
+  * For Ecdsa sha256, replace named curve secp256k1 with secp256r1
+
+* enhancements
+  * Update dependencies
+
 ### v0.2.8 (2017-03-04)
 
 * bug fix

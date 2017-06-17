@@ -124,7 +124,7 @@ A companion Hex package, [JWT Claims][jwt_claims], provides support for verifyin
 * "**jti**" (JWT ID)
 
 ### Supported Elixir versions
-Elixir 1.2 and up
+Elixir 1.4 and up
 
 ### Limitations
 Future implementation may include these features:

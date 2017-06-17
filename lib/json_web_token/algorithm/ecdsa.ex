@@ -10,7 +10,7 @@ defmodule JsonWebToken.Algorithm.Ecdsa do
 
   # attr: {curve, der_byte_count_minimum_threshold}
   @sha_bits_to_attr %{
-    sha256: {:secp256k1, 69},
+    sha256: {:secp256r1, 69},
     sha384: {:secp384r1, 101},
     sha512: {:secp521r1, 137}
   }
