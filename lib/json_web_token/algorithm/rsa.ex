@@ -7,7 +7,6 @@ defmodule JsonWebToken.Algorithm.Rsa do
 
   alias JsonWebToken.Algorithm.Common
   alias JsonWebToken.Util
-  @otp_vsn :erlang.system_info(:otp_release)
 
   @key_bits_min 2048
 
@@ -44,11 +43,14 @@ defmodule JsonWebToken.Algorithm.Rsa do
   end
 
   @doc "RSA key modulus, n"
-  def modulus(key) do
-    case @otp_vsn do
-      '20' -> :ssh_bits.mpint(Enum.at key, 1)
-      _ -> :crypto.mpint(Enum.at key, 1)
-    end
+  otp_vsn = :erlang.system_info(:otp_release)
+  |> to_string
+  |> String.to_integer
+
+  if otp_vsn > 19 do
+    def modulus(key), do: :ssh_bits.mpint(Enum.at key, 1)
+  else
+    def modulus(key), do: :crypto.mpint(Enum.at key, 1)
   end
 
   defp validate_params(sha_bits, key) do
