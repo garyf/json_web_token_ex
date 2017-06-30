@@ -45,7 +45,7 @@ defmodule JsonWebToken.Algorithm.Rsa do
   @doc """
   RSA key modulus, n
 
-  Note: Erlang OTP 20 moved `the mpint/1` function from `:crypto` to `:ssh_btis` module.
+  Note: Erlang OTP 20 moved `the mpint/1` function from `:crypto` to `:ssh_bits` module.
   To deal with both OTP versions, a compile time OTP version check is performed.
   Based on the version the modulus function is defined with the appropiate module.
   """
