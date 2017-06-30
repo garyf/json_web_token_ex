@@ -42,7 +42,13 @@ defmodule JsonWebToken.Algorithm.Rsa do
     :crypto.verify(:rsa, sha_bits, signing_input, mac, public_key)
   end
 
-  @doc "RSA key modulus, n"
+  @doc """
+  RSA key modulus, n
+
+  Note: Erlang OTP 20 moved `the mpint/1` function from `:crypto` to `:ssh_btis` module.
+  To deal with both OTP versions, a compile time OTP version check is performed.
+  Based on the version the modulus function is defined with the appropiate module.
+  """
   otp_vsn = :erlang.system_info(:otp_release)
   |> to_string
   |> String.to_integer
