@@ -43,7 +43,10 @@ defmodule JsonWebToken.Algorithm.Rsa do
   end
 
   @doc "RSA key modulus, n"
-  def modulus(key), do: :crypto.mpint(Enum.at key, 1)
+  def modulus([_exponent, modulus | _rest]) do
+    bytes_list = Integer.digits(modulus, 256)
+    :erlang.list_to_binary(bytes_list)
+  end
 
   defp validate_params(sha_bits, key) do
     Common.validate_bits(sha_bits)
@@ -51,9 +54,14 @@ defmodule JsonWebToken.Algorithm.Rsa do
   end
 
   # http://tools.ietf.org/html/rfc7518#section-3.3
-  defp validate_key_size(a_key) do
-    key = Util.validate_present(a_key)
-    weak_key(bit_size(modulus key) < @key_bits_min)
+  defp validate_key_size(key) when is_list(key) do
+    key = Util.validate_present(key) |> modulus()
+    weak_key(bit_size(key) < @key_bits_min)
+  end
+
+  defp validate_key_size(key) do
+    key = Util.validate_present(key)
+    weak_key(bit_size(key) < @key_bits_min)
   end
 
   defp weak_key(true), do: raise "RSA modulus too short"

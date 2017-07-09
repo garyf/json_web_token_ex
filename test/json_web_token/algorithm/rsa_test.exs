@@ -59,8 +59,9 @@ defmodule JsonWebToken.Algorithm.RsaTest do
   end
 
   test "sign/3 w private_key size < key_bits_min raises" do
+    # private_key_weak.pem holds a 2000-bit key
     private_key = RsaUtil.private_key(@path_to_keys, "private_key_weak.pem")
-    assert byte_size(Rsa.modulus private_key) == 255
+    assert byte_size(Rsa.modulus private_key) == 250
     invalid_key(private_key, "RSA modulus too short")
   end
 
