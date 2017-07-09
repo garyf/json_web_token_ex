@@ -26,15 +26,13 @@ defmodule JsonWebToken.Util do
   defp arithmetic_compare("", "", acc), do: acc
 
   @doc """
-  Return the string passed in, unless it is nil or an empty string
+  Return the parameter passed in, unless it is nil or an empty string
 
   ## Example
       iex> JsonWebToken.Util.validate_present("a")
       "a"
   """
-  def validate_present(param), do: validate_present(param, param == "")
-
-  defp validate_present(nil, _), do: raise "Param nil"
-  defp validate_present(_, true), do: raise "Param blank"
-  defp validate_present(param, _), do: param
+  def validate_present(nil), do: raise "Param nil"
+  def validate_present(""), do: raise "Param blank"
+  def validate_present(param), do: param
 end
