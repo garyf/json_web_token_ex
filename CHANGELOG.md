@@ -1,5 +1,10 @@
 ## Changelog
 
+### v0.2.10 (2017-07-09)
+
+* bug fix
+  * Properly calculate RSA modulus, thereby enabling usage of OTP 20.0
+
 ### v0.2.9 (2017-06-17)
 
 * bug fix
