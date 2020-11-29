@@ -26,6 +26,13 @@ defp deps do
 end
 ```
 
+Define the JSON library to use in your config file and install it (Default: `Poison`):
+
+```elixir
+config :json_web_token,
+  json_library: Jason
+```
+
 ### JsonWebToken.sign(claims, options)
 
 Returns a JSON Web Token string
