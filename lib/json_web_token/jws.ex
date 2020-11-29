@@ -48,7 +48,7 @@ defmodule JsonWebToken.Jws do
 
   defp to_json_base64_encode(header) do
     header
-    |> Poison.encode
+    |> JsonWebToken.Util.json_library.encode
     |> header_json
     |> Base.url_encode64(padding: false)
   end
@@ -87,7 +87,7 @@ defmodule JsonWebToken.Jws do
     [head | _] = String.split(jws, ".")
     head
     |> Base.url_decode64!(padding: false)
-    |> Poison.decode(keys: :atoms)
+    |> JsonWebToken.Util.json_library.decode(keys: :atoms)
     |> header_map
   end
 
