@@ -37,7 +37,7 @@ defmodule JsonWebToken.Util do
   def validate_present(param), do: param
 
   @doc """
-  Gets the JSON library used by json_web_token. (By default `Posion`)
+  Gets the JSON library used by json_web_token. (By default `Poison`)
 
 
   ## Example
