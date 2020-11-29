@@ -11,7 +11,10 @@ defmodule JsonWebToken.Mixfile do
       deps: deps(),
       package: package(),
       description: "Elixir implementation of the JSON Web Token (JWT), RFC 7519",
-      test_coverage: [tool: ExCoveralls]
+      test_coverage: [tool: ExCoveralls],
+      env: [
+        json_library: Poison
+      ]
     ]
   end
 
@@ -42,7 +45,7 @@ defmodule JsonWebToken.Mixfile do
       {:earmark, "~> 1.2", only: :dev},
       {:ex_doc, "~> 0.16", only: :dev},
       {:excoveralls, "~> 0.7", only: :test},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1", only: :test}
     ]
   end
 

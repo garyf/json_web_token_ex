@@ -35,4 +35,14 @@ defmodule JsonWebToken.Util do
   def validate_present(nil), do: raise "Param nil"
   def validate_present(""), do: raise "Param blank"
   def validate_present(param), do: param
+
+  @doc """
+  Gets the JSON library used by json_web_token. (By default `Posion`)
+
+
+  ## Example
+      iex> JsonWebToken.Util.json_library()
+      Poison
+  """
+  def json_library(), do: Application.get_env(:json_web_token, :json_library)
 end

@@ -64,7 +64,7 @@ defmodule JsonWebToken.Jwt do
   defp claims_to_json(""), do: raise "Claims blank"
   defp claims_to_json(claims) do
     claims
-    |> Poison.encode
+    |> JsonWebToken.Util.json_library.encode
     |> claims_json
   end
 
@@ -100,7 +100,7 @@ defmodule JsonWebToken.Jwt do
   defp payload_to_map(encoded_payload) do
     encoded_payload
     |> Base.url_decode64!(padding: false)
-    |> Poison.decode(keys: :atoms)
+    |> JsonWebToken.Util.json_library.decode(keys: :atoms)
     |> claims_map
   end
 
