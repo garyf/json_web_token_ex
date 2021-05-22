@@ -18,7 +18,7 @@ defmodule JsonWebToken.Algorithm.Hmac do
   """
   def sign(sha_bits, shared_key, signing_input) do
     validate_params(sha_bits, shared_key)
-    :crypto.hmac(sha_bits, shared_key, signing_input)
+    :crypto.mac(:hmac, sha_bits, shared_key, signing_input)
   end
 
   @doc """
