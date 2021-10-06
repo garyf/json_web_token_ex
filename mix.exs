@@ -23,7 +23,8 @@ defmodule JsonWebToken.Mixfile do
       applications: [
         :crypto,
         :logger,
-        :public_key
+        :public_key,
+        :poison
       ]
     ]
   end
